@@ -3,13 +3,13 @@
  *
  * @package pages
  */
-import type { NextPage } from 'next'
-import {TodoListTemplate} from "@/components/templates/TodoListTemplate";
+import type { NextPage } from 'next';
 
 /**
  * TodoListPage
  * @constructor
  */
-const TodoListPage: NextPage = () => <TodoListTemplate />
-
-export default TodoListPage
+const TodoListPage: NextPage = () => {
+  return <div>Hello World</div>;
+};
+export default TodoListPage;

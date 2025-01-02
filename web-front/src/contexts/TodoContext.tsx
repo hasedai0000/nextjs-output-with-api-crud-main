@@ -14,6 +14,7 @@ type Props = {
 
 type ContextInterface = {
   originTodoList: Array<TodoType>;
+  addTodo: (title: string, content: string) => void;
 };
 /**
  * TodoContext
@@ -24,12 +25,13 @@ const TodoContext = createContext({} as ContextInterface);
  * TodoProvider
  */
 export const TodoProvider: FC<Props> = ({ children }) => {
-  const { originTodoList } = useTodo();
+  const { originTodoList, addTodo } = useTodo();
 
   return (
     <TodoContext.Provider
       value={{
         originTodoList,
+        addTodo,
       }}
     >
       {children}

@@ -16,3 +16,19 @@ export const fetchTodoListApi = async () => {
     }
   }
 };
+
+/**
+ * Todo新規登録API接続処理
+ * @param {string} title
+ * @param {string} content
+ */
+export const createTodoApi = async (title: string, content: string) => {
+  try {
+    const { data }: AxiosResponse<TodoType> = await globalAxios.post('/todo/', { title, content });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.code;
+    }
+  }
+};

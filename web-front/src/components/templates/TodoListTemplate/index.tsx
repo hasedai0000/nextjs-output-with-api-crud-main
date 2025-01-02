@@ -13,7 +13,7 @@ export const TodoListTemplate = () => {
     <BaseLayout title="TodoList">
       <div className={styles.container}>
         <div className={styles.area}>
-          <InputForm placeholder="Search Word" inputValue={searchKeyword} onChange={handleSearchKeyword} />
+          <InputForm placeholder="Search Word" value={searchKeyword} onChange={handleSearchKeyword} />
         </div>
         <div className={styles.area}>
           <TodoList showTodoList={showTodoList} />

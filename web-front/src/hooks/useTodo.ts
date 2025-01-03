@@ -7,7 +7,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { TodoType } from '@/types/Todo';
-import { createTodoApi, fetchTodoListApi } from '@/apis/todoApi';
+import { createTodoApi, fetchTodoListApi, updateTodoApi } from '@/apis/todoApi';
 
 /**
  * useTodo
@@ -42,9 +42,34 @@ export const useTodo = () => {
     [originTodoList]
   );
 
+  /**
+   * Todo更新処理
+   * @param {number} id
+   * @param {string} title
+   * @param {string} content
+   */
+  const updateTodo = useCallback(
+    async (id: number, title: string, content: string) => {
+      const responseTodo = await updateTodoApi(id, title, content);
+      if (typeof responseTodo !== 'object') return;
+      const updatedTodoList = originTodoList.map((todo) => {
+        if (responseTodo.id === todo.id) {
+          return {
+            id: responseTodo.id,
+            title: responseTodo.title,
+            content: responseTodo.content,
+          };
+        }
+        return todo;
+      });
+      setOriginTodoList(updatedTodoList);
+    },
+    [originTodoList]
+  );
+
   useEffect(() => {
     fetchTodoList();
   }, [fetchTodoList]);
 
-  return { originTodoList, addTodo };
+  return { originTodoList, addTodo, updateTodo };
 };

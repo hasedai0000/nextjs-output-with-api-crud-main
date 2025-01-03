@@ -1,0 +1,34 @@
+import { TodoType } from '@/types/Todo';
+import { globalAxios, isAxiosError } from './config';
+import { AxiosResponse } from 'axios';
+
+/**
+ * TodoList取得のAPI接続処理
+ * ＠returns
+ */
+export const fetchTodoListApi = async () => {
+  try {
+    const { data }: AxiosResponse<Array<TodoType>> = await globalAxios.get('/todo');
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.code;
+    }
+  }
+};
+
+/**
+ * Todo新規登録API接続処理
+ * @param {string} title
+ * @param {string} content
+ */
+export const createTodoApi = async (title: string, content: string) => {
+  try {
+    const { data }: AxiosResponse<TodoType> = await globalAxios.post('/todo/', { title, content });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.code;
+    }
+  }
+};

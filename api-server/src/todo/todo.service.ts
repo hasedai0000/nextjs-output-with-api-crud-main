@@ -12,6 +12,14 @@ export class TodoService {
     return await this.prisma.todo.findMany();
   }
 
+  async findOne(id: number) {
+    return await this.prisma.todo.findFirst({
+      where: {
+        id,
+      },
+    });
+  }
+
   async create(createTodoDto: CreateTodoDto) {
     return await this.prisma.todo.create({
       data: {

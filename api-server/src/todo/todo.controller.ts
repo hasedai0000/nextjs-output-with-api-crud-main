@@ -12,6 +12,11 @@ export class TodoController {
     return this.todoService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.todoService.findOne(+id);
+  }
+
   @Post()
   create(@Body() createTodoDto: CreateTodoDto) {
     return this.todoService.create(createTodoDto);

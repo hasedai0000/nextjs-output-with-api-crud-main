@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 
 type Props = {
-  addTodo: (title: string, content: string) => void;
+  addTodo: (title: string, content: string) => Promise<void>;
 };
 
 type StatesType = {

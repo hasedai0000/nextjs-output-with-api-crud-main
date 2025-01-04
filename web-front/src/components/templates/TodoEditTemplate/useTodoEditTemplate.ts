@@ -12,7 +12,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 type Props = {
   originTodoList: Array<TodoType>;
-  updateTodo: (id: number, title: string, content: string) => void;
+  updateTodo: (id: number, title: string, content: string) => Promise<void>;
 };
 
 type StatesType = {
@@ -29,7 +29,6 @@ type ActionsType = {
 
 /**
  * useTodoEditTemplate
- * TodoCreateTemplateのロジックを管理する
  *
  * @param originTodoList
  */

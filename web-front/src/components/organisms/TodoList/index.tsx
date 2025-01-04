@@ -11,9 +11,11 @@ import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile, faPenToSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useTodoList } from './useTodoList';
+import { useTodo } from '@/hooks/useTodo';
 
 type Props = {
   showTodoList: TodoType[];
+  handleDeleteTodo: (id: number, title: string) => void;
 };
 
 /**
@@ -22,8 +24,8 @@ type Props = {
  * @returns {JSX.Element}
  * @constructor
  */
-export const TodoList: FC<Props> = ({ showTodoList }) => {
-  const [{ handleMoveToEdit }] = useTodoList();
+export const TodoList: FC<Props> = ({ showTodoList, handleDeleteTodo }) => {
+  const [{ handleMoveToEdit, handleMoveToDetail }] = useTodoList();
 
   return (
     <ul className={styles.list}>
@@ -33,7 +35,7 @@ export const TodoList: FC<Props> = ({ showTodoList }) => {
           <div className={styles.area}>
             <div className={styles.far}>
               {/* https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react-ja */}
-              <FontAwesomeIcon icon={faFile} size="lg" />
+              <FontAwesomeIcon icon={faFile} size="lg" onClick={() => handleMoveToDetail(todo.id)} />
             </div>
             <div className={styles.far}>
               {/* https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react-ja */}
@@ -41,7 +43,7 @@ export const TodoList: FC<Props> = ({ showTodoList }) => {
             </div>
             <div className={styles.far}>
               {/* https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react-ja */}
-              <FontAwesomeIcon icon={faTrashAlt} size="lg" />
+              <FontAwesomeIcon icon={faTrashAlt} size="lg" onClick={() => handleDeleteTodo(todo.id, todo.title)} />
             </div>
           </div>
         </li>

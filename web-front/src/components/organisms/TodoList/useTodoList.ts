@@ -10,6 +10,7 @@ import { useCallback } from 'react';
 
 type ActionType = {
   handleMoveToEdit: (id: string) => void;
+  handleMoveToDetail: (id: string) => void;
 };
 
 /**
@@ -30,8 +31,21 @@ export const useTodoList = () => {
     [router]
   );
 
+  /**
+   * 詳細ページへの遷移
+   * @param id
+   * @type {function(*): void}
+   */
+  const handleMoveToDetail = useCallback(
+    (id: string) => {
+      router.push(`${NAVIGATION_PATH.DETAIL}${id}`);
+    },
+    [router]
+  );
+
   const actions: ActionType = {
     handleMoveToEdit,
+    handleMoveToDetail,
   };
 
   return [actions] as const;

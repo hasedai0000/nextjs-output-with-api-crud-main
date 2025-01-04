@@ -32,3 +32,38 @@ export const createTodoApi = async (title: string, content: string) => {
     }
   }
 };
+
+/**
+ * Todo更新API接続処理
+ * @param {string} id
+ * @param {string} title
+ * @param {string} content
+ */
+export const updateTodoApi = async (id: number, title: string, content: string) => {
+  try {
+    const { data }: AxiosResponse<TodoType> = await globalAxios.patch(`/todo/${id}`, {
+      title,
+      content,
+    });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.code;
+    }
+  }
+};
+
+/**
+ * Todo削除API接続処理
+ * @param {number} id
+ */
+export const deleteTodoApi = async (id: number) => {
+  try {
+    const { data }: AxiosResponse<TodoType> = await globalAxios.delete(`/todo/${id}`);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.code;
+    }
+  }
+};

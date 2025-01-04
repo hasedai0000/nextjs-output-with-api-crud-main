@@ -1,19 +1,22 @@
 /**
- * useTodoCreateTemplate
+ * useTodoEditTemplate
  *
- * @package components/templates/TodoCreateTemplate
+ * @package components/templates/TodoEditTemplate
  */
 
 import { NAVIGATION_PATH } from '@/constants/navigation';
 import { EventType } from '@/types/Event';
+import { TodoType } from '@/types/Todo';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 
 type Props = {
-  addTodo: (title: string, content: string) => Promise<void>;
+  originTodoList: Array<TodoType>;
+  updateTodo: (id: number, title: string, content: string) => Promise<void>;
 };
 
 type StatesType = {
+  todo: TodoType | undefined;
   inputTitle: string;
   inputContent: string;
 };
@@ -21,19 +24,22 @@ type StatesType = {
 type ActionsType = {
   handleTitle: EventType['onChangeInput'];
   handleContent: EventType['onChangeTextArea'];
-  handleCreateTodo: EventType['onSubmit'];
+  handleUpdateTodo: EventType['onSubmit'];
 };
 
 /**
- * useTodoCreateTemplate
- * TodoCreateTemplateのロジックを管理する
+ * useTodoEditTemplate
  *
  * @param originTodoList
  */
-export const useTodoCreateTemplate = ({ addTodo }: Props) => {
+export const useTodoEditTemplate = ({ originTodoList, updateTodo }: Props) => {
   const router = useRouter();
-  const [inputTitle, setInputTitle] = useState('');
-  const [inputContent, setInputContent] = useState('');
+  const todo = useMemo(
+    () => originTodoList.find((todo) => String(todo.id) === router?.query?.id),
+    [router?.query?.id, originTodoList]
+  );
+  const [inputTitle, setInputTitle] = useState(todo?.title || '');
+  const [inputContent, setInputContent] = useState(todo?.content || '');
 
   const handleTitle: EventType['onChangeInput'] = useCallback((e) => {
     setInputTitle(e.target.value);
@@ -47,18 +53,19 @@ export const useTodoCreateTemplate = ({ addTodo }: Props) => {
    * Todo追加処理
    * @type {(function(*): void)|*}
    */
-  const handleCreateTodo: EventType['onSubmit'] = useCallback(
+  const handleUpdateTodo: EventType['onSubmit'] = useCallback(
     (e) => {
       e.preventDefault();
-      if (inputTitle !== '' && inputContent !== '') {
-        addTodo(inputTitle, inputContent);
+      if (!!todo?.id && inputTitle !== '' && inputContent !== '') {
+        updateTodo(todo.id, inputTitle, inputContent);
         router.push(NAVIGATION_PATH.TOP);
       }
     },
-    [addTodo, inputTitle, inputContent, router]
+    [updateTodo, todo?.id, inputTitle, inputContent, router]
   );
 
   const state: StatesType = {
+    todo,
     inputTitle,
     inputContent,
   };
@@ -66,7 +73,7 @@ export const useTodoCreateTemplate = ({ addTodo }: Props) => {
   const action: ActionsType = {
     handleTitle,
     handleContent,
-    handleCreateTodo,
+    handleUpdateTodo,
   };
 
   return [state, action] as const;

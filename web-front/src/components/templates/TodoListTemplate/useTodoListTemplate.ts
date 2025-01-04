@@ -10,6 +10,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 type Props = {
   originTodoList: TodoType[];
+  deleteTodo: (id: number) => Promise<void>;
 };
 
 type StatesType = {
@@ -19,6 +20,7 @@ type StatesType = {
 
 type ActionsType = {
   handleSearchKeyword: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDeleteTodo: (id: number, title: string) => void;
 };
 
 /**
@@ -27,7 +29,7 @@ type ActionsType = {
  *
  * @param originTodoList
  */
-export const useTodoListTemplate = ({ originTodoList }: Props) => {
+export const useTodoListTemplate = ({ originTodoList, deleteTodo }: Props) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearchKeyword: EventType['onChangeInput'] = useCallback((e) => {
@@ -41,6 +43,20 @@ export const useTodoListTemplate = ({ originTodoList }: Props) => {
     });
   }, [originTodoList, searchKeyword]);
 
+  /**
+   * Todo削除処理
+   * @param { number } id
+   * @param { string } title
+   */
+  const handleDeleteTodo = useCallback(
+    (id: number, title: string) => {
+      if (window.confirm(`「${title}」のtodoを削除しますか？`)) {
+        deleteTodo(id);
+      }
+    },
+    [deleteTodo]
+  );
+
   const state: StatesType = {
     searchKeyword,
     showTodoList,
@@ -48,6 +64,7 @@ export const useTodoListTemplate = ({ originTodoList }: Props) => {
 
   const action: ActionsType = {
     handleSearchKeyword,
+    handleDeleteTodo,
   };
 
   return [state, action] as const;

@@ -6,8 +6,11 @@ import { useTodoListTemplate } from './useTodoListTemplate';
 import { useTodoContext } from '@/contexts/TodoContext';
 
 export const TodoListTemplate = () => {
-  const { originTodoList } = useTodoContext();
-  const [{ searchKeyword, showTodoList }, { handleSearchKeyword }] = useTodoListTemplate({ originTodoList });
+  const { originTodoList, deleteTodo } = useTodoContext();
+  const [{ searchKeyword, showTodoList }, { handleSearchKeyword, handleDeleteTodo }] = useTodoListTemplate({
+    originTodoList,
+    deleteTodo,
+  });
 
   return (
     <BaseLayout title="TodoList">
@@ -16,7 +19,7 @@ export const TodoListTemplate = () => {
           <InputForm placeholder="Search Word" value={searchKeyword} onChange={handleSearchKeyword} />
         </div>
         <div className={styles.area}>
-          <TodoList showTodoList={showTodoList} />
+          <TodoList showTodoList={showTodoList} handleDeleteTodo={handleDeleteTodo} />
         </div>
       </div>
     </BaseLayout>

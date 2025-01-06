@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Todo } from '@prisma/client';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 
@@ -8,29 +8,35 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 export class TodoService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(): Promise<Todo[]> {
-    return await this.prisma.todo.findMany();
-  }
-
-  async findOne(id: number) {
-    return await this.prisma.todo.findFirst({
-      where: {
-        id,
-      },
-    });
-  }
-
-  async create(createTodoDto: CreateTodoDto) {
+  async create(createTodoDto: CreateTodoDto, userId: number) {
     return await this.prisma.todo.create({
       data: {
         title: createTodoDto.title,
         content: createTodoDto.content,
+        userId,
+      },
+    });
+  }
+
+  async findAll(userId: number): Promise<Todo[]> {
+    return await this.prisma.todo.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
+
+  async findOne(id: number, userId: number) {
+    return await this.prisma.todo.findFirst({
+      where: {
+        id,
+        userId,
       },
     });
   }
 
   async update(id: number, updateTodoDto: UpdateTodoDto) {
-    return await this.prisma.todo.update({
+    return this.prisma.todo.update({
       where: {
         id,
       },

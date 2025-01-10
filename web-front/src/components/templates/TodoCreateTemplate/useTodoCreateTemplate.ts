@@ -1,16 +1,15 @@
 /**
  * useTodoCreateTemplate
  *
- * @package components/templates/TodoCreateTemplate
+ * @package hooks
  */
-
-import { NAVIGATION_PATH } from '@/constants/navigation';
-import { EventType } from '@/types/Event';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import { NAVIGATION_PATH } from '@/constants/navigation';
+import { EventType } from '@/interfaces/Event';
 
-type Props = {
-  addTodo: (title: string, content: string) => Promise<void>;
+type Param = {
+  addTodo: (title: string, content: string) => void;
 };
 
 type StatesType = {
@@ -19,36 +18,39 @@ type StatesType = {
 };
 
 type ActionsType = {
-  handleTitle: EventType['onChangeInput'];
-  handleContent: EventType['onChangeTextArea'];
+  handleChangeTitle: EventType['onChangeInput'];
+  handleChangeContent: EventType['onChangeTextArea'];
   handleCreateTodo: EventType['onSubmit'];
 };
 
 /**
  * useTodoCreateTemplate
- * TodoCreateTemplateのロジックを管理する
- *
- * @param originTodoList
+ * @param addTodo
  */
-export const useTodoCreateTemplate = ({ addTodo }: Props) => {
+export const useTodoCreateTemplate = ({ addTodo }: Param) => {
   const router = useRouter();
+
+  /* local state */
   const [inputTitle, setInputTitle] = useState('');
   const [inputContent, setInputContent] = useState('');
+  /**
+   * 「title」変更処理
+   * @type {function(*): void}
+   */
+  const handleChangeTitle: EventType['onChangeInput'] = useCallback((e) => setInputTitle(e.target.value), []);
 
-  const handleTitle: EventType['onChangeInput'] = useCallback((e) => {
-    setInputTitle(e.target.value);
-  }, []);
-
-  const handleContent: EventType['onChangeTextArea'] = useCallback((e) => {
-    setInputContent(e.target.value);
-  }, []);
+  /**
+   * 「content」変更処理
+   * @type {function(*): void}
+   */
+  const handleChangeContent: EventType['onChangeTextArea'] = useCallback((e) => setInputContent(e.target.value), []);
 
   /**
    * Todo追加処理
    * @type {(function(*): void)|*}
    */
   const handleCreateTodo: EventType['onSubmit'] = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (inputTitle !== '' && inputContent !== '') {
         addTodo(inputTitle, inputContent);
@@ -58,16 +60,16 @@ export const useTodoCreateTemplate = ({ addTodo }: Props) => {
     [addTodo, inputTitle, inputContent, router]
   );
 
-  const state: StatesType = {
+  const states: StatesType = {
     inputTitle,
     inputContent,
   };
 
-  const action: ActionsType = {
-    handleTitle,
-    handleContent,
+  const actions: ActionsType = {
+    handleChangeTitle,
+    handleChangeContent,
     handleCreateTodo,
   };
 
-  return [state, action] as const;
+  return [states, actions] as const;
 };

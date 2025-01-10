@@ -1,28 +1,47 @@
-import { InputForm } from '@/components/atoms/InputForm';
-import { BaseLayout } from '@/components/organisms/BaseLayout';
-import styles from './styles.module.css';
-import { TextAreaForm } from '@/components/atoms/TextAreaForm';
+/**
+ * TodoCreateTemplate
+ *
+ * @package components
+ */
 import { useTodoContext } from '@/contexts/TodoContext';
-import { useTodoCreateTemplate } from './useTodoCreateTemplate';
+import { BaseLayout } from '@/components/organisms/BaseLayout';
+import { InputForm } from '@/components/atoms/InputForm';
+import { TextArea } from '@/components/atoms/TextArea';
 import { CommonButton } from '@/components/atoms/CommonButton';
+import { useTodoCreateTemplate } from './useTodoCreateTemplate';
+import styles from './styles.module.css';
 
+/**
+ * TodoCreateTemplate
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const TodoCreateTemplate = () => {
   const { addTodo } = useTodoContext();
-  const [{ inputTitle, inputContent }, { handleTitle, handleContent, handleCreateTodo }] = useTodoCreateTemplate({
-    addTodo,
-  });
+  const [
+    { inputTitle, inputContent },
+    { handleChangeTitle, handleChangeContent, handleCreateTodo }
+  ] = useTodoCreateTemplate({ addTodo });
 
   return (
-    <BaseLayout title="Create Todo">
+    <BaseLayout title={'Create Todo'}>
       <form className={styles.container} onSubmit={handleCreateTodo}>
         <div className={styles.area}>
-          <InputForm placeholder="New Todo Title" value={inputTitle} onChange={handleTitle} />
+          <InputForm
+            value={inputTitle}
+            placeholder={'Title'}
+            onChange={handleChangeTitle}
+          />
         </div>
         <div className={styles.area}>
-          <TextAreaForm placeholder="New Todo Content" value={inputContent} onChange={handleContent} />
+          <TextArea
+            value={inputContent}
+            placeholder={'Content'}
+            onChange={handleChangeContent}
+          />
         </div>
         <div className={styles.area}>
-          <CommonButton type="submit" title="Create" />
+          <CommonButton type='submit' title='Create Todo' />
         </div>
       </form>
     </BaseLayout>

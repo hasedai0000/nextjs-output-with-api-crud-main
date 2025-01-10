@@ -1,28 +1,25 @@
 /**
  * NavigationLink
  *
- * @package components/atoms
+ * @package components
  */
 import { FC } from 'react';
-import Link from 'next/link';
+import Link from 'next/link'
 import styles from './styles.module.css';
 
 type Props = {
-  title: string;
-  linkPath: string;
-};
+  title: string,
+  linkPath: string
+}
 
 /**
  * NavigationLink
- * @param linkPath
  * @param title
- * @returns {JSX.Element}
+ * @param linkPath
  * @constructor
  */
-export const NavigationLink: FC<Props> = ({ title, linkPath }) => {
-  return (
-    <li className={styles.li}>
-      <Link href={linkPath}>{title}</Link>
-    </li>
-  );
-};
+export const NavigationLink: FC<Props> = ({ title, linkPath }) => (
+  <li className={styles.li}>
+    <Link href={linkPath}>{title}</Link>
+  </li>
+);

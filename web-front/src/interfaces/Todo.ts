@@ -1,14 +1,14 @@
 /**
  * Todo
  *
- * @package type
+ * @package interface
  */
 
 /**
  * TodoType
  */
-export type TodoType = {
+export interface TodoType {
   id: number;
   title: string;
   content: string;
-};
+}

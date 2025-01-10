@@ -1,11 +1,11 @@
 /**
  * BaseLayout
  *
- * @package components/organisms
+ * @package components
  */
 import { FC, ReactNode } from 'react';
+import { Navigation } from '../../molecules/Navigation';
 import styles from './styles.module.css';
-import { Navigation } from '@/components/molecules/Navigation';
 
 type Props = {
   children: ReactNode;
@@ -13,20 +13,16 @@ type Props = {
 };
 
 /**
- * BaseLayout
- * @param children
- * @param title
- * @returns {JSX.Element}
- * @constructor
+ *  BaseLayout
  */
-export const BaseLayout: FC<Props> = ({ children, title }) => {
-  return (
-    <div className={styles.container}>
-      <section className={styles.common}>
-        <Navigation />
-      </section>
+export const BaseLayout: FC<Props> = ({ children, title }) => (
+  <div>
+    <header className={styles.header}>
+      <Navigation />
+    </header>
+    <main className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
       {children}
-    </div>
-  );
-};
+    </main>
+  </div>
+);

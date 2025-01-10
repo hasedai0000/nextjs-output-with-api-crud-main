@@ -1,5 +1,5 @@
-.input {
-    color: white;
+.text {
+    color: #fff;
     border: none;
     background: rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -9,8 +9,10 @@
     font-size: 20px;
     font-family: "Times New Roman", Times, serif;
     border-radius: 5px;
+    resize: none;
+    min-height: 100px;
 }
 
-.input::placeholder {
+.text::placeholder {
     color: #c0c0c0;
 }

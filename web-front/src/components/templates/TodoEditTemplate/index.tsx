@@ -1,30 +1,39 @@
-import { InputForm } from '@/components/atoms/InputForm';
-import { BaseLayout } from '@/components/organisms/BaseLayout';
-import styles from './styles.module.css';
-import { TextAreaForm } from '@/components/atoms/TextAreaForm';
+/**
+ * TodoEditTemplate
+ *
+ * @package components
+ */
+import { FC } from 'react';
 import { useTodoContext } from '@/contexts/TodoContext';
+import { BaseLayout } from '@/components/organisms/BaseLayout';
+import { InputForm } from '@/components/atoms/InputForm/';
+import { TextArea } from '@/components/atoms/TextArea/';
+import { CommonButton } from '@/components/atoms/CommonButton/';
 import { useTodoEditTemplate } from './useTodoEditTemplate';
-import { CommonButton } from '@/components/atoms/CommonButton';
+import styles from './styles.module.css';
 
-export const TodoEditTemplate = () => {
+/**
+ * TodoEditTemplate
+ * @constructor
+ */
+export const TodoEditTemplate: FC = () => {
   const { originTodoList, updateTodo } = useTodoContext();
-  const [{ todo, inputTitle, inputContent }, { handleTitle, handleContent, handleUpdateTodo }] = useTodoEditTemplate({
-    originTodoList,
-    updateTodo,
-  });
+
+  const [{ todo, inputTitle, inputContent }, { handleChangeTitle, handleChangeContent, handleUpdateTodo }] =
+    useTodoEditTemplate({ originTodoList, updateTodo });
 
   return (
-    <BaseLayout title="Edit Todo">
+    <BaseLayout title={'TodoEdit'}>
       {!!todo && (
         <form className={styles.container} onSubmit={handleUpdateTodo}>
           <div className={styles.area}>
-            <InputForm value={inputTitle} onChange={handleTitle} />
+            <InputForm value={inputTitle} placeholder={'Title'} onChange={handleChangeTitle} />
           </div>
           <div className={styles.area}>
-            <TextAreaForm value={inputContent} onChange={handleContent} />
+            <TextArea value={inputContent} placeholder={'Content'} onChange={handleChangeContent} />
           </div>
           <div className={styles.area}>
-            <CommonButton type="submit" title="Update" />
+            <CommonButton type="submit" title="Edit Todo" />
           </div>
         </form>
       )}

@@ -3,14 +3,13 @@
  *
  * @package pages
  */
-
-import { TodoEditTemplate } from '@/components/templates/TodoEditTemplate';
-import { NextPage } from 'next';
+import type { NextPage } from 'next'
+import {TodoEditTemplate} from "@/components/templates/TodoEditTemplate"
 
 /**
  * TodoEditPage
  * @constructor
  */
-const TodoEditPage: NextPage = () => <TodoEditTemplate />;
+const TodoEditPage: NextPage = () => <TodoEditTemplate />
 
-export default TodoEditPage;
+export default TodoEditPage

@@ -1,23 +1,23 @@
 /**
  * TodoContext
  *
- * @package context
+ * @package contexts
  */
-
+import { FC, ReactNode, useContext, createContext } from 'react';
+import { TodoType } from '@/interfaces/Todo';
 import { useTodo } from '@/hooks/useTodo';
-import { TodoType } from '@/types/Todo';
-import { createContext, FC, ReactNode, useContext } from 'react';
 
 type Props = {
   children: ReactNode;
 };
 
-type ContextInterface = {
+interface ContextInterface {
   originTodoList: Array<TodoType>;
   addTodo: (title: string, content: string) => Promise<void>;
   updateTodo: (id: number, title: string, content: string) => Promise<void>;
   deleteTodo: (targetId: number) => Promise<void>;
-};
+}
+
 /**
  * TodoContext
  */
@@ -25,8 +25,11 @@ const TodoContext = createContext({} as ContextInterface);
 
 /**
  * TodoProvider
+ * @param children
+ * @constructor
  */
 export const TodoProvider: FC<Props> = ({ children }) => {
+  // カスタムフックから状態とロジックを呼び出してコンテキストプロバイダーにあてがう
   const { originTodoList, addTodo, updateTodo, deleteTodo } = useTodo();
 
   return (

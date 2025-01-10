@@ -1,25 +1,37 @@
 /**
  * Navigation
  *
- * @package components/molecules
+ * @package components
  */
-
+import { FC } from 'react';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { NavigationLink } from '@/components/atoms/NavigationLink';
-import styles from './styles.module.css';
 import { NAVIGATION_PATH } from '@/constants/navigation';
+import { useNavigation } from './useNavigation';
+import styles from './styles.module.css';
 
 /**
  * Navigation
- * @returns {JSX.Element}
  * @constructor
  */
-export const Navigation = () => {
+export const Navigation: FC = () => {
+  const { signOut } = useAuthContext();
+  const { handleLogout } = useNavigation({ signOut });
+
   return (
-    <nav>
-      <ul className={styles.ul}>
-        <NavigationLink title="Top" linkPath={NAVIGATION_PATH.TOP} />
-        <NavigationLink title="Create" linkPath={NAVIGATION_PATH.CREATE} />
-      </ul>
-    </nav>
+    <div className={styles.header}>
+      <h1 className={styles.title}>Todo List</h1>
+      <nav className={styles.nav}>
+        <ul className={styles.ul}>
+          <NavigationLink title={'Top'} linkPath={NAVIGATION_PATH.TOP} />
+          <NavigationLink title={'Create'} linkPath={NAVIGATION_PATH.CREATE} />
+          <li className={styles.li}>
+            <button className={styles.button} onClick={handleLogout}>
+              SignOut
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 };

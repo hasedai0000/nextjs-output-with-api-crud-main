@@ -1,25 +1,39 @@
-import { InputForm } from '@/components/atoms/InputForm';
+/**
+ * TodoListTemplate
+ *
+ * @package components
+ */
 import { BaseLayout } from '@/components/organisms/BaseLayout';
+import { InputForm } from '@/components/atoms/InputForm';
 import { TodoList } from '@/components/organisms/TodoList';
-import styles from './styles.module.css';
-import { useTodoListTemplate } from './useTodoListTemplate';
 import { useTodoContext } from '@/contexts/TodoContext';
+import { useTodoTemplate } from './useTodoTemplate';
+import styles from './styles.module.css';
 
+/**
+ * TodoListTemplate
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const TodoListTemplate = () => {
+  // コンテキストから状態とロジックを呼び出してコンポーネントにあてがう
   const { originTodoList, deleteTodo } = useTodoContext();
-  const [{ searchKeyword, showTodoList }, { handleSearchKeyword, handleDeleteTodo }] = useTodoListTemplate({
+
+  const [{ searchKeyword, showTodoList }, { handleChangeSearchKeyword, handleDeleteTodo }] = useTodoTemplate({
     originTodoList,
     deleteTodo,
   });
 
   return (
-    <BaseLayout title="TodoList">
+    <BaseLayout title={'TodoList'}>
       <div className={styles.container}>
+        {/* Todo検索フォームエリア */}
         <div className={styles.area}>
-          <InputForm placeholder="Search Word" value={searchKeyword} onChange={handleSearchKeyword} />
+          <InputForm value={searchKeyword} placeholder={'Search Keyword'} onChange={handleChangeSearchKeyword} />
         </div>
+        {/* Todoリスト一覧表示 */}
         <div className={styles.area}>
-          <TodoList showTodoList={showTodoList} handleDeleteTodo={handleDeleteTodo} />
+          {showTodoList?.length > 0 && <TodoList todoList={showTodoList} handleDeleteTodo={handleDeleteTodo} />}
         </div>
       </div>
     </BaseLayout>

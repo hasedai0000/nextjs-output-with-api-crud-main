@@ -1,27 +1,33 @@
-import { InputForm } from '@/components/atoms/InputForm';
+/**
+ * TodoDetailTemplate
+ *
+ * @package components
+ */
+import { FC } from 'react';
 import { BaseLayout } from '@/components/organisms/BaseLayout';
-import styles from './styles.module.css';
-import { TextAreaForm } from '@/components/atoms/TextAreaForm';
-import { useTodoContext } from '@/contexts/TodoContext';
+import { InputForm } from '@/components/atoms/InputForm';
+import { TextArea } from '@/components/atoms/TextArea';
 import { useTodoDetailTemplate } from './useTodoDetailTemplate';
+import styles from './styles.module.css';
 
-export const TodoDetailTemplate = () => {
-  const { originTodoList } = useTodoContext();
-  const [{ todo }] = useTodoDetailTemplate({
-    originTodoList,
-  });
+/**
+ * TodoDetailTemplate
+ * @returns
+ */
+export const TodoDetailTemplate: FC = () => {
+  const [{ todo }] = useTodoDetailTemplate();
 
   return (
-    <BaseLayout title="Edit Todo">
+    <BaseLayout title={'TodoDetail'}>
       {!!todo && (
-        <>
+        <div className={styles.container}>
           <div className={styles.area}>
-            <InputForm value={todo.title} />
+            <InputForm disabled value={todo.title} placeholder={'Title'} />
           </div>
           <div className={styles.area}>
-            <TextAreaForm value={todo.content} />
+            <TextArea disabled value={todo.content} placeholder={'Content'} />
           </div>
-        </>
+        </div>
       )}
     </BaseLayout>
   );
